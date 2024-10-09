@@ -13,6 +13,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import com.assisment.discountCalculator.model.BillCalculationResult;
 
 import static com.assisment.discountCalculator.utility.Constants.*;
 
@@ -32,12 +33,31 @@ public class BillController {
     public BillResponse calculate(@RequestBody BillRequest request) {
         // Fetch exchange rates
         Map<String, Object> exchangeRates = currencyExchangeServiceImpl.getExchangeRates(request.getOriginalCurrency());
-        Map<String, Double> rates = (Map<String, Double>) exchangeRates.get("rates");
+        //Map<String, Double> rates = (Map<String, Double>) exchangeRates.get("rates");
 
-        // Calculate the discount
-        double totalAmount = request.getTotalAmount();
+        // to process items and calculate final bill
+        BillCalculationResult calculationResult = processItemsAndCalculateBill(request);
 
+        // Convert the final amount to the target currency
+        //double totalPayable = discountService.convertCurrency(calculationResult.getFinalAmount(), request.getTargetCurrency(), rates);
 
+        LocalDateTime current = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATEFORMATTER);
+
+        String billId = current.format(formatter);
+
+        // Create the response
+        BillResponse response = new BillResponse();
+        response.setBillId(billId);
+        response.setGroceryItems(calculationResult.getGroceryItems());
+        response.setNonGroceryItems(calculationResult.getNonGroceryItems());
+        response.setGroceryTotal(calculationResult.getGroceryTotal());
+        response.setNonGroceryTotal(calculationResult.getNonGroceryTotal());
+        response.setFinalAmount(calculationResult.getFinalAmount());
+        return response;
+    }
+
+    private BillCalculationResult processItemsAndCalculateBill(BillRequest request) {
         // Separate grocery and non-grocery items
         List<Item> groceryItems = request.getItems().stream()
                 .filter(item -> item.getCategory().equals(GROCERIES))
@@ -47,27 +67,18 @@ public class BillController {
                 .filter(item -> item.getCategory().equals(NON_GROCERIES))
                 .collect(Collectors.toList());
 
-        double finalAmount = discountService.calculateDiscount(request.getUser(), totalAmount, request.getItems());
-
-        // Convert the final amount to the target currency
-        double convertedAmount = discountService.convertCurrency(finalAmount, request.getTargetCurrency(), rates);
-
         // Calculate totals for grocery and non-grocery items
-        double groceryTotal = groceryItems.stream().mapToDouble(Item::getPrice).sum();
+        double groceryBill = groceryItems.stream().mapToDouble(Item::getPrice).sum();
         double nonGroceryTotal = nonGroceryItems.stream().mapToDouble(Item::getPrice).sum();
 
-        LocalDateTime current = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATEFORMATTER);
+        // Calculate discounted amount for non-grocery items
+        double nonGroceryBill = discountService.calculateDiscount(request.getUser(), nonGroceryTotal, request.getItems());
 
-        String biilId = current.format(formatter);
-        // Create the response
-        BillResponse response = new BillResponse();
-        response.setBillId(biilId);
-        response.setGroceryItems(groceryItems);
-        response.setNonGroceryItems(nonGroceryItems);
-        response.setGroceryTotal(groceryTotal);
-        response.setNonGroceryTotal(nonGroceryTotal);
-        response.setFinalAmount(convertedAmount);
-        return response;
+        // Calculate the final amount (with flat discount)
+        double totalBill = nonGroceryBill + groceryBill;
+        double finalAmount =  totalBill - Math.floor(totalBill / 100) * 5;
+        // Return result in a custom class
+        return new BillCalculationResult(groceryItems, nonGroceryItems, groceryBill, nonGroceryTotal, finalAmount);
     }
+
 }

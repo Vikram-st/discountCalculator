@@ -48,7 +48,6 @@ class BillControllerTest {
         );
 
         BillRequest request = new BillRequest();
-        request.setTotalAmount(350);
         request.setOriginalCurrency("USD");
         request.setTargetCurrency("EUR");
         request.setUser(user);
@@ -84,7 +83,6 @@ class BillControllerTest {
         List<Item> items = Arrays.asList(new Item(1L,"Parley-G Biscuit", "GROCERIES", 150));
 
         BillRequest request = new BillRequest();
-        request.setTotalAmount(150);
         request.setOriginalCurrency("INVALID_CURRENCY");
         request.setTargetCurrency("EUR");
         request.setUser(user);

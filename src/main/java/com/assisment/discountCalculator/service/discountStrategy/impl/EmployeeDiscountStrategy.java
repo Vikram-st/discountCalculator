@@ -11,8 +11,6 @@ public class EmployeeDiscountStrategy implements DiscountStrategy {
     @Override
     public double calculateDiscount(double totalBill, List<Item> items) {
         double discount = 0.30;
-        double amountDiscount = Math.floor(totalBill / 100) * 5;
-        return (totalBill * (1 - discount)) - amountDiscount;
+        return (totalBill * (1 - discount));
     }
 }
-

@@ -15,13 +15,11 @@ public class CustomerDiscountStrategy implements DiscountStrategy {
     @Override
     public double calculateDiscount(double totalBill, List<Item> items) {
         double discount = 0;
-        double amountDiscount = Math.floor(totalBill / 100) * 5;
-
         if (!isGroceries(items)) {
             discount = LONG_TERM_CUSTOMER_DISCOUNT;
         }
 
-        return (totalBill * (1 - discount)) - amountDiscount;
+        return (totalBill * (1 - discount));
     }
 
     private boolean isGroceries(List<Item> items) {
