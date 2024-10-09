@@ -134,7 +134,8 @@ Copy code
 -   The test cases verify the functionality of discount calculations for different user types.
 -   Mocking is utilized for dependencies to ensure isolated testing.
 
-
+### Test Report
+![img_6.png](img_6.png)
 
 
 ## License
@@ -158,7 +159,7 @@ Copy code
 
 ``### Notes:
 
-- Replace `https://github.com/yourusername/currency-discount-calculator.git` with the actual URL of your repository.
+- Replace `https://github.com/Vikram-st/project` with the actual URL of your repository.
 - Ensure that any specific configuration or dependencies needed for Redis or other components are mentioned under the "Setup" section if applicable.
 - This `README.md` provides a structured overview, making it easier for users and developers to understand and contribute to your project.``
 
