@@ -1,0 +1,13 @@
+{
+  "items": [
+    {"name": "Laptop", "category": "Non-Groceries", "price": 1200.0},
+    {"name": "Monitor", "category": "Non-Groceries", "price": 250.0}
+  ],
+  "user": {
+    "userType": "EMPLOYEE",
+    "customerTenure": 1
+  },
+  "totalAmount": 1450.0,
+  "originalCurrency": "USD",
+  "targetCurrency": "EUR"
+}
