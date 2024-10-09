@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static com.assisment.discountCalculator.utility.Constants.GROCERIES;
+
 @Service
 public class CustomerDiscountStrategy implements DiscountStrategy {
     private static final double LONG_TERM_CUSTOMER_DISCOUNT = 0.05;
@@ -24,6 +26,6 @@ public class CustomerDiscountStrategy implements DiscountStrategy {
 
     private boolean isGroceries(List<Item> items) {
         // Check if items are groceries (implement actual logic)
-        return items.stream().allMatch(item -> item.getCategory().equals("GROCERIES"));
+        return items.stream().allMatch(item -> item.getCategory().equals(GROCERIES));
     }
 }
