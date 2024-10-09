@@ -64,54 +64,60 @@ The Currency Discount Calculator is a Spring Boot application that calculates th
 **POST** `/api/calculate`
 
 ### Request Body
-
+![img_4.png](img_4.png)
 The request body should be in JSON format as follows:
-
-json
-
-Copy code
-
-`{
+{
 "user": {
-"userType": "EMPLOYEE", // Options: EMPLOYEE, AFFILIATE, CUSTOMER
-"customerTenure": 1 // Required for CUSTOMER type
+"userId": 2,
+"userType": "AFFILIATE"
 },
-"totalAmount": 1450.0,
-"originalCurrency": "USD",
-"targetCurrency": "EUR",
 "items": [
 {
-"itemId": "1", // Unique identifier for the item
-"name": "Laptop",
-"category": "Non-Groceries",
-"price": 1200.0
-},
-{
-"itemId": "2",
-"name": "Monitor",
-"category": "Non-Groceries",
-"price": 250.0
-},
-{
-"itemId": "3",
-"name": "Bread",
+"itemId": 3,
+"name": "Apple",
 "category": "GROCERIES",
 "price": 2.0
+},
+{
+"itemId": 4,
+"name": "Bread",
+"category": "GROCERIES",
+"price": 1.5
 }
-]
+],
+"totalAmount": 3.5,
+"originalCurrency": "USD",
+"targetCurrency": "EUR"
 }`
 
 ### Response
 
-The response will return the converted amount after applying the discounts:
+{
+"billId": "20241009 14:05:26.039",
+"finalAmount": 2.8704627,
+"groceryItems": [
+{
+"itemId": 3,
+"name": "Apple",
+"category": "GROCERIES",
+"price": 2.0
+},
+{
+"itemId": 4,
+"name": "Bread",
+"category": "GROCERIES",
+"price": 1.5
+}
+],
+"nonGroceryItems": [],
+"groceryTotal": 3.5,
+"nonGroceryTotal": 0.0
+}
 
-json
+![img_5.png](img_5.png)The response will return the converted amount after applying the discounts:
 
-Copy code
+![img_3.png](img_3.png)
 
-`{
-"convertedAmount": 1400.0
-}`
 
 ## Testing
 
