@@ -64,9 +64,10 @@ The Currency Discount Calculator is a Spring Boot application that calculates th
 **POST** `/api/calculate`
 
 ### Request Body
-![img_4.png](img_4.png)
+
 The request body should be in JSON format as follows:
-{
+
+`{
 "user": {
 "userId": 2,
 "userType": "AFFILIATE"
@@ -90,9 +91,41 @@ The request body should be in JSON format as follows:
 "targetCurrency": "EUR"
 }`
 
+
+### Curl
+`curl --location 'http://localhost:8080/api/calculate' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: Basic dXNlcjpwYXNzd29yZA==' \
+--header 'Cookie: JSESSIONID=A21BEEDD88452DC1D6F875554C8A69CC; JSESSIONID=A21BEEDD88452DC1D6F875554C8A69CC' \
+--data '{
+"user": {
+"userId": 2,
+"userType": "AFFILIATE"
+},
+"items": [
+{
+"itemId": 3,
+"name": "Apple",
+"category": "GROCERIES",
+"price": 2.0
+},
+{
+"itemId": 4,
+"name": "Bread",
+"category": "GROCERIES",
+"price": 1.5
+}
+],
+"totalAmount": 3.5,
+"originalCurrency": "USD",
+"targetCurrency": "EUR"
+}
+'`
+![img_4.png](img_4.png)
+
 ### Response
 
-{
+`{
 "billId": "20241009 14:05:26.039",
 "finalAmount": 2.8704627,
 "groceryItems": [
@@ -112,7 +145,7 @@ The request body should be in JSON format as follows:
 "nonGroceryItems": [],
 "groceryTotal": 3.5,
 "nonGroceryTotal": 0.0
-}
+}`
 
 ![img_5.png](img_5.png)The response will return the converted amount after applying the discounts:
 
