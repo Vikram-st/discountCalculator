@@ -34,23 +34,23 @@ The Currency Discount Calculator is a Spring Boot application that calculates th
 ### Installation
 
 1. **Clone the repository**:
-   ```bash
+   ```
    git clone https://github.com/yourusername/currency-discount-calculator.git
    cd currency-discount-calculator` 
 
 2.  **Build the project**:
 
-    bash
+    
 
-    Copy code
+    
 
     `mvn clean install`
 
 3.  **Run the application**:
 
-    bash
+    
 
-    Copy code
+    
 
     `mvn spring-boot:run`
 
@@ -123,9 +123,9 @@ The request body should be in JSON format as follows:
 
 To run the unit tests, use the following command:
 
-bash
 
-Copy code
+
+
 
 `mvn test`
 
@@ -155,7 +155,7 @@ For any issues or feature requests, please create an issue on GitHub.
 
 markdown
 
-Copy code
+
 
 ``### Notes:
 
