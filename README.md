@@ -67,89 +67,71 @@ The Currency Discount Calculator is a Spring Boot application that calculates th
 
 The request body should be in JSON format as follows:
 
-`{
-"user": {
-"userId": 2,
-"userType": "AFFILIATE"
-},
+``{
 "items": [
 {
-"itemId": 3,
-"name": "Apple",
-"category": "GROCERIES",
-"price": 2.0
+"itemId": "1",
+"name": "Laptop",
+"category": "NON_GROCERIES",
+"price": 1200.0
 },
 {
-"itemId": 4,
-"name": "Bread",
+"itemId": "2",
+"name": "Monitor",
+"category": "NON_GROCERIES",
+"price": 250.0
+},
+{
+"itemId": "3",
+"name": "Apple",
 "category": "GROCERIES",
-"price": 1.5
+"price": 5.0
 }
 ],
-"totalAmount": 3.5,
-"originalCurrency": "USD",
-"targetCurrency": "EUR"
-}`
-
-
-### Curl
-`curl --location 'http://localhost:8080/api/calculate' \
---header 'Content-Type: application/json' \
---header 'Authorization: Basic dXNlcjpwYXNzd29yZA==' \
---header 'Cookie: JSESSIONID=A21BEEDD88452DC1D6F875554C8A69CC; JSESSIONID=A21BEEDD88452DC1D6F875554C8A69CC' \
---data '{
 "user": {
-"userId": 2,
-"userType": "AFFILIATE"
+"userType": "EMPLOYEE",
+"customerTenure": 1
 },
-"items": [
-{
-"itemId": 3,
-"name": "Apple",
-"category": "GROCERIES",
-"price": 2.0
-},
-{
-"itemId": 4,
-"name": "Bread",
-"category": "GROCERIES",
-"price": 1.5
-}
-],
-"totalAmount": 3.5,
-"originalCurrency": "USD",
-"targetCurrency": "EUR"
-}
-'`
-![img_4.png](img_4.png)
+    "originalCurrency": "USD",
+    "targetCurrency": "EUR"
+}``
+
+
+
+![img_7.png](img_7.png)
 
 ### Response
 
 `{
-"billId": "20241009 14:05:26.039",
-"finalAmount": 2.8704627,
+"billId": "2024100919:33:51.977",
+"finalAmount": 969.9999999999999,
 "groceryItems": [
 {
 "itemId": 3,
 "name": "Apple",
 "category": "GROCERIES",
-"price": 2.0
-},
-{
-"itemId": 4,
-"name": "Bread",
-"category": "GROCERIES",
-"price": 1.5
+"price": 5.0
 }
 ],
-"nonGroceryItems": [],
-"groceryTotal": 3.5,
-"nonGroceryTotal": 0.0
+"nonGroceryItems": [
+{
+"itemId": 1,
+"name": "Laptop",
+"category": "NON_GROCERIES",
+"price": 1200.0
+},
+{
+"itemId": 2,
+"name": "Monitor",
+"category": "NON_GROCERIES",
+"price": 250.0
+}
+],
+"groceryTotal": 5.0,
+"nonGroceryTotal": 1450.0
 }`
 
-![img_5.png](img_5.png)The response will return the converted amount after applying the discounts:
-
-![img_3.png](img_3.png)
+![img_8.png](img_8.png)
 
 
 ## Testing
