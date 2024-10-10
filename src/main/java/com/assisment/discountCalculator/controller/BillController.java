@@ -41,14 +41,8 @@ public class BillController {
         // Convert the final amount to the target currency
         //double totalPayable = discountService.convertCurrency(calculationResult.getFinalAmount(), request.getTargetCurrency(), rates);
 
-        LocalDateTime current = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATEFORMATTER);
-
-        String billId = current.format(formatter);
-
         // Create the response
         BillResponse response = new BillResponse();
-        response.setBillId(billId);
         response.setGroceryItems(calculationResult.getGroceryItems());
         response.setNonGroceryItems(calculationResult.getNonGroceryItems());
         response.setGroceryTotal(calculationResult.getGroceryTotal());
