@@ -44,7 +44,6 @@ class BillControllerTest {
         List<Item> items = Arrays.asList(
                 new Item(1L,"Parley-G Biscuit", "GROCERIES", 150),  // Ensure category is set
                 new Item(2L, "Haldiram Namkeen","GROCERIES", 200) // Ensure category is set
-                //new Item(2L, "Mobile","NONGROCERIES" 200) // Ensure category is set
         );
 
         BillRequest request = new BillRequest();
@@ -59,23 +58,11 @@ class BillControllerTest {
         when(currencyExchangeServiceImpl.getExchangeRates("USD")).thenReturn(Map.of("rates", exchangeRates));
         when(discountCalculationServices.calculateDiscount(user, 350, items)).thenReturn(300.0);
 
-        // When
         BillResponse response = billController.calculate(request);
-
-        // Then
-//        assertEquals(255.0, response.getFinalAmount());
-//        assertEquals(1, response.getGroceryItems().size());
-//        assertEquals(1, response.getNonGroceryItems().size());
-//        assertEquals(150, response.getGroceryTotal());
-//        assertEquals(200, response.getNonGroceryTotal());
-//
-//        verify(currencyExchangeService).getExchangeRates("USD");
-//        verify(discountCalculationServices).calculateDiscount(user, 350, items);
     }
 
     @Test
     void calculate_InvalidCurrency() {
-        // Given
         User user = new User();
         user.setUserId(1L);
         user.setUserType(UserType.CUSTOMER);
@@ -90,7 +77,6 @@ class BillControllerTest {
 
         when(currencyExchangeServiceImpl.getExchangeRates("INVALID_CURRENCY")).thenThrow(new RuntimeException("Currency not found"));
 
-        // When & Then
         Exception exception = Assertions.assertThrows(RuntimeException.class, () -> billController.calculate(request));
         assertEquals("Currency not found", exception.getMessage());
 

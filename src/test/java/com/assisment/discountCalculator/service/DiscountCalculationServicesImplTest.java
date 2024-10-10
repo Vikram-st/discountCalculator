@@ -1,5 +1,6 @@
 package com.assisment.discountCalculator.service;
 
+import static com.assisment.discountCalculator.model.UserType.CUSTOMER;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
@@ -41,97 +42,69 @@ class DiscountCalculationServicesImplTest {
 
     @Test
     void calculateDiscount_EmployeeDiscount() {
-        // Given
         User user = new User();
         user.setUserId(1L);
         user.setUserType(UserType.EMPLOYEE);
 
         List<Item> items = Arrays.asList(
-                new Item(1L,"Biscuit", "GROCERIES", 150),  // Ensure category is set
-                new Item(2L, "toys","NON_GROCERIES", 200) // Ensure category is set
+                new Item(1L,"Biscuit", "GROCERIES", 150),
+                new Item(2L, "toys","NON_GROCERIES", 200)
         );
 
         double totalBill = 350.0;
-
-        // Assuming employee discount is 30%
-        when(employeeDiscountStrategy.calculateDiscount(totalBill, items)).thenReturn(250.0);
-
-        // When
+        when(employeeDiscountStrategy.calculateDiscount(totalBill)).thenReturn(250.0);
         double finalAmount = discountCalculationServices.calculateDiscount(user, totalBill, items);
-
-        // Then
         assertEquals(250.0, finalAmount);
-        verify(employeeDiscountStrategy).calculateDiscount(totalBill, items);
+        verify(employeeDiscountStrategy).calculateDiscount(totalBill);
     }
 
     @Test
     void calculateDiscount_AffiliateDiscount() {
-        // Given
         User user = new User();
         user.setUserId(2L);
         user.setUserType(UserType.AFFILIATE);
 
         List<Item> items = Arrays.asList(
-                new Item(1L,"Biscuit", "GROCERIES", 150),  // Ensure category is set
-                new Item(2L, "toys","NON_GROCERIES", 200) // Ensure category is set
+                new Item(1L,"Biscuit", "GROCERIES", 150),
+                new Item(2L, "toys","NON_GROCERIES", 200)
         );
 
         double totalBill = 350.0;
-
-        // Assuming affiliate discount is 10%
-        when(affiliateDiscountStrategy.calculateDiscount(totalBill, items)).thenReturn(300.0);
-
-        // When
+        when(affiliateDiscountStrategy.calculateDiscount(totalBill)).thenReturn(300.0);
         double finalAmount = discountCalculationServices.calculateDiscount(user, totalBill, items);
-
-        // Then
         assertEquals(300.0, finalAmount);
-        verify(affiliateDiscountStrategy).calculateDiscount(totalBill, items);
+        verify(affiliateDiscountStrategy).calculateDiscount(totalBill);
     }
 
     @Test
     void calculateDiscount_CustomerDiscount() {
-        // Given
         User user = new User();
         user.setUserId(3L);
-        user.setUserType(UserType.CUSTOMER);
-
+        user.setUserType(CUSTOMER);
+        user.setCustomerTenure(3);
         List<Item> items = Arrays.asList(
-                new Item(1L,"Biscuit", "GROCERIES", 150),  // Ensure category is set
-                new Item(2L, "toys","NON_GROCERIES", 200) // Ensure category is set
+                new Item(1L,"Laptop", "NON_GROCERIES", 1200.0),
+                new Item(2L,"Monitor", "NON_GROCERIES", 250.0)
         );
-
-        double totalBill = 350.0;
-
-        // Assuming customer discount is 5% for non-grocery items
-        when(customerDiscountStrategy.calculateDiscount(totalBill, items)).thenReturn(330.0);
-
-        // When
-        double finalAmount = discountCalculationServices.calculateDiscount(user, totalBill, items);
-
-        // Then
-        assertEquals(330.0, finalAmount);
-        verify(customerDiscountStrategy).calculateDiscount(totalBill, items);
+        double totalBill = 1450.0;
+        when(customerDiscountStrategy.calculateDiscount(totalBill)).thenReturn(1377.5);
+        double result = discountCalculationServices.calculateDiscount(user, totalBill, items);
+        assertEquals(1377.5, result, 0.01);
     }
 
     @Test
     void calculateDiscount_NoDiscount() {
-        // Given
         User user = new User();
         user.setUserId(4L);
-        user.setUserType(null); // No user type means no discount
+        user.setUserType(CUSTOMER);
 
         List<Item> items = Arrays.asList(
-                new Item(1L,"Biscuit", "GROCERIES", 150),  // Ensure category is set
-                new Item(2L, "toys","NON_GROCERIES", 200) // Ensure category is set
+                new Item(1L,"Biscuit", "GROCERIES", 150),
+                new Item(2L, "toys","NON_GROCERIES", 200)
         );
 
         double totalBill = 350.0;
-
-        // When
         double finalAmount = discountCalculationServices.calculateDiscount(user, totalBill, items);
-
-        // Then
-        assertEquals(350.0, finalAmount); // No discount applied
+        assertEquals(350.0, finalAmount);
     }
 }

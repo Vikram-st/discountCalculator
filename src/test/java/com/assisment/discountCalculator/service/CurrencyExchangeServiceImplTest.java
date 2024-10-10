@@ -32,7 +32,6 @@ class CurrencyExchangeServiceImplTest {
 
     @Test
     void testGetExchangeRatesSuccess() {
-        // Arrange
         String baseCurrency = "USD";
         String url = String.format("https://open.er-api.com/v6/latest/%s?apikey=%s", baseCurrency, apiKey);
 
@@ -45,10 +44,8 @@ class CurrencyExchangeServiceImplTest {
         // Mock the RestTemplate behavior
         doReturn(mockResponse).when(restTemplate).getForObject(anyString(), eq(Map.class));
 
-        // Act
         Map<String, Object> result = currencyExchangeServiceImpl.getExchangeRates(baseCurrency);
 
-        // Assert
         Assertions.assertNotNull(result);
         Assertions.assertTrue(result.containsKey("rates"));
         Assertions.assertEquals(0.85, ((Map<String, Double>) result.get("rates")).get("EUR"));
@@ -56,15 +53,12 @@ class CurrencyExchangeServiceImplTest {
 
     @Test
     void testGetExchangeRatesFailure() {
-        // Arrange
         String baseCurrency = "USD";
         String url = String.format("https://open.er-api.com/v6/latest/%s?apikey=%s", baseCurrency, apiKey);
 
-        // Mock a client error exception
         doThrow(new HttpClientErrorException(HttpStatus.BAD_REQUEST))
                 .when(restTemplate).getForObject(anyString(), eq(Map.class));
 
-        // Act & Assert
         Exception exception = assertThrows(RuntimeException.class, () -> {
             currencyExchangeServiceImpl.getExchangeRates(baseCurrency);
         });

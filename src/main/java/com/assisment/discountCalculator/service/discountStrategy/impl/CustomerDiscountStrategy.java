@@ -1,6 +1,7 @@
 package com.assisment.discountCalculator.service.discountStrategy.impl;
 
 import com.assisment.discountCalculator.model.Item;
+import com.assisment.discountCalculator.model.User;
 import com.assisment.discountCalculator.service.discountStrategy.DiscountStrategy;
 import org.springframework.stereotype.Service;
 
@@ -13,17 +14,9 @@ public class CustomerDiscountStrategy implements DiscountStrategy {
     private static final double LONG_TERM_CUSTOMER_DISCOUNT = 0.05;
 
     @Override
-    public double calculateDiscount(double totalBill, List<Item> items) {
-        double discount = 0;
-        if (!isGroceries(items)) {
-            discount = LONG_TERM_CUSTOMER_DISCOUNT;
-        }
-
+    public double calculateDiscount(double totalBill) {
+        double discount = 0.05;
         return (totalBill * (1 - discount));
     }
 
-    private boolean isGroceries(List<Item> items) {
-        // Check if items are groceries (implement actual logic)
-        return items.stream().allMatch(item -> item.getCategory().equals(GROCERIES));
-    }
 }

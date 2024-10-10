@@ -9,7 +9,7 @@ import java.util.List;
 @Service
 public class EmployeeDiscountStrategy implements DiscountStrategy {
     @Override
-    public double calculateDiscount(double totalBill, List<Item> items) {
+    public double calculateDiscount(double totalBill) {
         double discount = 0.30;
         return (totalBill * (1 - discount));
     }

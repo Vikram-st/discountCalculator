@@ -1,21 +1,23 @@
 package com.assisment.discountCalculator.controller;
 
+import com.assisment.discountCalculator.model.BillCalculationResult;
 import com.assisment.discountCalculator.model.BillRequest;
 import com.assisment.discountCalculator.model.BillResponse;
 import com.assisment.discountCalculator.model.Item;
 import com.assisment.discountCalculator.service.discountCalculation.DiscountCalculationServices;
 import com.assisment.discountCalculator.service.exchange.CurrencyExchangeServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import com.assisment.discountCalculator.model.BillCalculationResult;
 
-import static com.assisment.discountCalculator.utility.Constants.*;
+import static com.assisment.discountCalculator.utility.Constants.GROCERIES;
+import static com.assisment.discountCalculator.utility.Constants.NON_GROCERIES;
 
 @RestController
 @RequestMapping("/api")
@@ -31,23 +33,21 @@ public class BillController {
 
     @PostMapping(value = "/calculate", consumes = "application/json", produces = "application/json")
     public BillResponse calculate(@RequestBody BillRequest request) {
-        // Fetch exchange rates
         Map<String, Object> exchangeRates = currencyExchangeServiceImpl.getExchangeRates(request.getOriginalCurrency());
-        //Map<String, Double> rates = (Map<String, Double>) exchangeRates.get("rates");
+        Map<String, Double> rates = (Map<String, Double>) exchangeRates.get("rates");
 
-        // to process items and calculate final bill
         BillCalculationResult calculationResult = processItemsAndCalculateBill(request);
+        double finalBillAmount = calculationResult.getFinalAmount();
 
-        // Convert the final amount to the target currency
-        //double totalPayable = discountService.convertCurrency(calculationResult.getFinalAmount(), request.getTargetCurrency(), rates);
+        // Convert finalBillAmount to target currency
+       //double totalBillPayableInTargetCurrency = discountService.convertCurrency(finalBillAmount, request.getTargetCurrency(), rates);
 
-        // Create the response
         BillResponse response = new BillResponse();
         response.setGroceryItems(calculationResult.getGroceryItems());
         response.setNonGroceryItems(calculationResult.getNonGroceryItems());
         response.setGroceryTotal(calculationResult.getGroceryTotal());
         response.setNonGroceryTotal(calculationResult.getNonGroceryTotal());
-        response.setFinalAmount(calculationResult.getFinalAmount());
+        response.setFinalAmount(finalBillAmount);
         return response;
     }
 
@@ -71,7 +71,6 @@ public class BillController {
         // Calculate the final amount (with flat discount)
         double totalBill = nonGroceryBill + groceryBill;
         double finalAmount =  totalBill - Math.floor(totalBill / 100) * 5;
-        // Return result in a custom class
         return new BillCalculationResult(groceryItems, nonGroceryItems, groceryBill, nonGroceryTotal, finalAmount);
     }
 
