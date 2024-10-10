@@ -4,7 +4,7 @@ import java.util.List;
 
 public class BillResponse {
 
-    private String billId;
+
     private double finalAmount;
     private List<Item> groceryItems;
     private List<Item> nonGroceryItems;
@@ -53,11 +53,5 @@ public class BillResponse {
         this.nonGroceryTotal = nonGroceryTotal;
     }
 
-    public String getBillId() {
-        return billId;
-    }
 
-    public void setBillId(String billId) {
-        this.billId = billId;
-    }
 }
