@@ -162,20 +162,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 -   Thanks to the Spring Boot community for their extensive documentation and support.
 -   Special thanks to contributors for their feedback and contributions.
 
-## Contributing
-
-If you'd like to contribute to this project, please fork the repository and submit a pull request.
-
-For any issues or feature requests, please create an issue on GitHub.
-
-markdown
 
 
-
-``### Notes:
-
-- Replace `https://github.com/Vikram-st/project` with the actual URL of your repository.
-- Ensure that any specific configuration or dependencies needed for Redis or other components are mentioned under the "Setup" section if applicable.
-- This `README.md` provides a structured overview, making it easier for users and developers to understand and contribute to your project.``
 
 4o mini
