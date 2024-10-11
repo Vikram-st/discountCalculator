@@ -1,5 +1,5 @@
 
-`# Currency Discount Calculator
+# Currency Discount Calculator
 
 ## Overview
 
@@ -153,14 +153,7 @@ To run the unit tests, use the following command:
 ![img_6.png](img_6.png)
 
 
-## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## Acknowledgments
-
--   Thanks to the Spring Boot community for their extensive documentation and support.
--   Special thanks to contributors for their feedback and contributions.
 
 
 
